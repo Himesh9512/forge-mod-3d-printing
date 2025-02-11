@@ -24,4 +24,4 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true } // Automatically adds createdAt & updatedAt fields
 );
 
-module.exports = mongoose.model('Product',ProductSchema);
+export default mongoose.models.Product || mongoose.model('Product',ProductSchema);

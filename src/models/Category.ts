@@ -9,4 +9,4 @@ const CategorySchema = new mongoose.Schema(
   { timestamps: true } // Automatically adds createdAt & updatedAt fields
 );
 
-module.exports = mongoose.model('Category',CategorySchema);
+export default mongoose.models.Category || mongoose.model('Category',CategorySchema);

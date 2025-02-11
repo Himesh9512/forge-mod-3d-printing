@@ -27,4 +27,4 @@ const PrintRequestSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('PrintRequest', PrintRequestSchema);
+export default mongoose.models.PrintRequest || mongoose.model('PrintRequest', PrintRequestSchema);
