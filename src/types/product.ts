@@ -1,0 +1,21 @@
+export default interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  category: string;
+  fileFormat: string[];
+  modelFile: string;
+  thumbnail: string;
+  printable: boolean;
+  dimensions: {
+    width: number,
+    height: number,
+    depth: number
+  }[];
+  materials: string[];
+  license: 'Personal' | 'Commercial';
+  rating: number;
+  reviews: string[];
+}

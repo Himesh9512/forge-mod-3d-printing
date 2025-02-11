@@ -15,7 +15,6 @@ const UserSchema = new mongoose.Schema(
         country: String,
       },
     ],
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Model' }],
     purchasedModels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Model' }],
   },
   { timestamps: true }
