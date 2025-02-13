@@ -1,11 +1,11 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document } from 'mongoose';
 
 export interface IProduct extends Document {
   name: string;
   description?: string;
   price: number;
   category: mongoose.Types.ObjectId;
-  fileFormat: ( 'STL' | 'OBJ' | 'STEP')[];
+  fileFormat: ('STL' | 'OBJ' | 'STEP')[];
   modelFile: string;
   thumbnail: string;
   printable: boolean;
@@ -14,7 +14,7 @@ export interface IProduct extends Document {
   license: 'Personal' | 'Commercial';
   rating: number;
   reviews: mongoose.Types.ObjectId[];
-};
+}
 
 const ProductSchema = new mongoose.Schema<IProduct>(
   {
@@ -39,4 +39,4 @@ const ProductSchema = new mongoose.Schema<IProduct>(
   { timestamps: true } // Automatically adds createdAt & updatedAt fields
 );
 
-export default mongoose.models.Product || mongoose.model<IProduct>('Product',ProductSchema);
+export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
