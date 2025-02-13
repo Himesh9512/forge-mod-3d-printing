@@ -1,11 +1,28 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-const OrderSchema = new mongoose.Schema(
+export interface IOrder extends Document {
+  user: mongoose.Types.ObjectId;
+  items: {
+    modelId: mongoose.Types.ObjectId;
+    price: number;
+  }[];
+  totalAmount: number;
+  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  paymentStatus: 'paid' | 'failed' | 'refunded';
+  tracking: {
+    statusUpdates: {
+      status: string;
+      timestamp: Date;
+    }[];
+  };
+}
+
+const OrderSchema = new mongoose.Schema<IOrder>(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     items: [
       {
-        modelId: { type: mongoose.Schema.Types.ObjectId, ref: 'Model', required: true },
+        modelId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
         price: { type: Number, required: true },
       },
     ],
@@ -24,4 +41,4 @@ const OrderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Order || mongoose.model('Order', OrderSchema);
+export default mongoose.models.Order || mongoose.model<IOrder>('Order', OrderSchema);

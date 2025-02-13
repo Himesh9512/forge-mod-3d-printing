@@ -1,6 +1,21 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  role: 'customer' | 'admin';
+  address: {
+    street: string,
+    city: string,
+    state: string,
+    zip: string,
+    country: string,
+  }[];
+  purchasedModels: mongoose.Types.ObjectId[]; 
+}
+
+const UserSchema = new mongoose.Schema<IUser>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, index: true },
@@ -15,9 +30,9 @@ const UserSchema = new mongoose.Schema(
         country: String,
       },
     ],
-    purchasedModels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Model' }],
+    purchasedModels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
   },
   { timestamps: true }
 );
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);

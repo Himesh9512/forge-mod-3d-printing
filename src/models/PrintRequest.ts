@@ -1,6 +1,28 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-const PrintRequestSchema = new mongoose.Schema(
+export interface IPrintRequest extends Document {
+  user: mongoose.Types.ObjectId;
+  customFile: string;
+  material: string;
+  color: string;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  quantity: number;
+  price: number;
+  status: 'pending' | 'reviewing' | 'approved' | 'printing' | 'shipped';
+  comments: {
+    message: string;
+    sender: 'admin' | 'customer';
+    timestamp: Date;
+  }[];
+  shippingAddress: string;
+  trackingNumber?: string;
+}
+
+const PrintRequestSchema = new mongoose.Schema<IPrintRequest>(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     customFile: { type: String, required: true },
@@ -27,4 +49,4 @@ const PrintRequestSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.PrintRequest || mongoose.model('PrintRequest', PrintRequestSchema);
+export default mongoose.models.PrintRequest || mongoose.model<IPrintRequest>('PrintRequest', PrintRequestSchema);

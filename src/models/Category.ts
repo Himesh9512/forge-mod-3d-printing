@@ -1,12 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-const CategorySchema = new mongoose.Schema(
+export interface ICategory extends Document {
+  name: string;
+  description?: string;
+};
+
+const CategorySchema = new mongoose.Schema<ICategory>(
   {
     name: { type: String, required: true },
-    slug: { type: String, required: true, unique: true },
     description: { type: String },
   },
-  { timestamps: true } // Automatically adds createdAt & updatedAt fields
+  { timestamps: true }
 );
 
-export default mongoose.models.Category || mongoose.model('Category',CategorySchema);
+export default mongoose.models.Category || mongoose.model<ICategory>('Category',CategorySchema);
