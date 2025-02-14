@@ -2,7 +2,7 @@ export default interface Order {
   id: string;
   user: string;
   items: {
-    modelId: string;
+    productId: string;
     price: number;
   }[];
   totalAmount: number;
@@ -13,5 +13,5 @@ export default interface Order {
       status: string;
       timestamp: Date;
     }[];
-  }
+  };
 }
