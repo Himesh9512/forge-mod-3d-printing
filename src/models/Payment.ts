@@ -1,4 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+ 
+export interface IPayment extends Document {
+  user: mongoose.Types.ObjectId;
+  order: mongoose.Types.ObjectId;
+  paymentMethod: 'Stripe' | 'PayPal';
+  transactionId: string;
+  amount: number;
+  status: 'successful' | 'failed';
+};
 
 const PaymentSchema = new mongoose.Schema(
   {
@@ -12,4 +21,4 @@ const PaymentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Payment || mongoose.model('Payment', PaymentSchema);
+export default mongoose.models.Payment || mongoose.model<IPayment>('Payment', PaymentSchema);

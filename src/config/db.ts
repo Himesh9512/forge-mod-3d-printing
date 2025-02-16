@@ -1,15 +1,15 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const MONGO_DB_STRING = process.env.MONGO_DB_STRING || "";
+const MONGODB_URI = process.env.MONGODB_URI || '';
 
-if (!MONGO_DB_STRING) throw new Error("MongoDB URI is missing!");
+if (!MONGODB_URI) throw new Error('MongoDB URI is missing!');
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect(MONGO_DB_STRING);
-    console.log("✅ MongoDB Connected");
+    await mongoose.connect(MONGODB_URI);
+    console.log('✅ MongoDB Connected');
   } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error);
+    console.error('❌ MongoDB Connection Error:', error);
     process.exit(1);
   }
 };

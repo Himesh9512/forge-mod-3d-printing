@@ -1,8 +1,8 @@
 export default interface Product {
   id: string;
   name: string;
-  slug: string;
   description: string;
+  bannerImage: string;
   price: number;
   category: string;
   fileFormat: string[];
@@ -10,9 +10,9 @@ export default interface Product {
   thumbnail: string;
   printable: boolean;
   dimensions: {
-    width: number,
-    height: number,
-    depth: number
+    width: number;
+    height: number;
+    depth: number;
   }[];
   materials: string[];
   license: 'Personal' | 'Commercial';

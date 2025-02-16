@@ -5,11 +5,11 @@ export default interface User {
   password: string;
   role: 'customer' | 'admin';
   address: {
-    street: string,
-    city: string,
-    state: string,
-    zip: string,
-    country: string,
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
   };
   purchasedModels: string[];
 }

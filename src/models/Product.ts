@@ -1,9 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from 'mongoose';
 
-const ProductSchema = new mongoose.Schema(
+export interface IProduct extends Document {
+  name: string;
+  description?: string;
+  price: number;
+  category: mongoose.Types.ObjectId;
+  fileFormat: ('STL' | 'OBJ' | 'STEP')[];
+  modelFile: string;
+  thumbnail: string;
+  printable: boolean;
+  dimensions: Array<{ width: number; height: number; depth: number }>;
+  materials: ('PLA' | 'ABS' | 'Resin')[];
+  license: 'Personal' | 'Commercial';
+  rating: number;
+  reviews: mongoose.Types.ObjectId[];
+}
+
+const ProductSchema = new mongoose.Schema<IProduct>(
   {
     name: { type: String, required: true },
-    slug: { type: String, required: true, unique: true },
     description: { type: String },
     price: { type: Number, default: 0 },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
@@ -24,4 +39,4 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true } // Automatically adds createdAt & updatedAt fields
 );
 
-export default mongoose.models.Product || mongoose.model('Product',ProductSchema);
+export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
