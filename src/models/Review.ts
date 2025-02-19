@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 
 export interface IReview extends Document {
+  _id: string;
   user: mongoose.Types.ObjectId;
   product: mongoose.Types.ObjectId;
   rating: number;
