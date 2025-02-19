@@ -3,11 +3,11 @@ import Product from '@/models/Product';
 import Review from '@/models/Review';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { productId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.id;
+    const id = await params.productId;
 
     const product = await Product.findById(id);
 
@@ -21,11 +21,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: { productId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.id;
+    const id = await params.productId;
     const {
       name,
       price,
@@ -72,15 +72,21 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { productId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.id;
-
-    await Review.deleteMany({ product: id });
+    const id = await params.productId;
 
     const deletedProduct = await Product.findByIdAndDelete(id);
+
+    const reviews = deletedProduct.reviews;
+
+    if (reviews.length > 0) {
+      reviews.forEach(async (review: string) => {
+        await Review.findByIdAndDelete(review);
+      });
+    }
 
     if (deletedProduct) {
       return NextResponse.json({ message: 'Product deleted!' }, { status: 200 });

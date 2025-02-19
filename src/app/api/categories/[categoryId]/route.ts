@@ -3,11 +3,11 @@ import Category from '@/models/Category';
 import Product from '@/models/Product';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { categoryId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.id;
+    const id = await params.categoryId;
 
     const category = await Category.findById(id);
 
@@ -21,11 +21,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: { categoryId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.id;
+    const id = await params.categoryId;
     const { name, description } = await req.json();
 
     const updatedCategory = await Category.findByIdAndUpdate(
@@ -47,11 +47,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { categoryId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.id;
+    const id = await params.categoryId;
 
     const products = await Product.find({ category: id });
 
