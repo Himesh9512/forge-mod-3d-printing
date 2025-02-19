@@ -1,13 +1,14 @@
-import mongoose, { Document } from "mongoose";
- 
+import mongoose, { Document } from 'mongoose';
+
 export interface IPayment extends Document {
+  _id: string;
   user: mongoose.Types.ObjectId;
   order: mongoose.Types.ObjectId;
   paymentMethod: 'Stripe' | 'PayPal';
   transactionId: string;
   amount: number;
   status: 'successful' | 'failed';
-};
+}
 
 const PaymentSchema = new mongoose.Schema(
   {
