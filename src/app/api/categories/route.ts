@@ -1,12 +1,12 @@
 import { connectDB } from '@/config/db';
-import Category from '@/models/Category';
+import Category, { ICategory } from '@/models/Category';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
   try {
     await connectDB();
 
-    const categories = await Category.find();
+    const categories: ICategory[] = await Category.find();
 
     return NextResponse.json({ categories: categories }, { status: 200 });
   } catch (e) {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
     const { name, description } = await req.json();
 
-    const category = new Category({
+    const category: ICategory = new Category({
       name,
       description,
     });

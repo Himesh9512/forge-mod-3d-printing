@@ -1,15 +1,16 @@
 import { connectDB } from '@/config/db';
-import Product from '@/models/Product';
+import Product, { IProduct } from '@/models/Product';
 import Review from '@/models/Review';
+import { Types } from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest, { params }: { params: { productId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.productId;
+    const id: string = await params.productId;
 
-    const product = await Product.findById(id);
+    const product: IProduct | null = await Product.findById(id).populate('reviews');
 
     if (product) {
       return NextResponse.json({ product: product }, { status: 200 });
@@ -25,7 +26,7 @@ export async function PUT(req: NextRequest, { params }: { params: { productId: s
   try {
     await connectDB();
 
-    const id = await params.productId;
+    const id: string = await params.productId;
     const {
       name,
       price,
@@ -42,7 +43,7 @@ export async function PUT(req: NextRequest, { params }: { params: { productId: s
       reviews,
     } = await req.json();
 
-    const updatedProduct = await Product.findByIdAndUpdate(
+    const updatedProduct: IProduct | null = await Product.findByIdAndUpdate(
       id,
       {
         name,
@@ -76,16 +77,14 @@ export async function DELETE(req: NextRequest, { params }: { params: { productId
   try {
     await connectDB();
 
-    const id = await params.productId;
+    const id: string = await params.productId;
 
-    const deletedProduct = await Product.findByIdAndDelete(id);
+    const deletedProduct: IProduct | null = await Product.findByIdAndDelete(id);
 
-    const reviews = deletedProduct.reviews;
-
-    if (reviews.length > 0) {
-      reviews.forEach(async (review: string) => {
-        await Review.findByIdAndDelete(review);
-      });
+    if (deletedProduct) {
+      if (deletedProduct.reviews.length > 0) {
+        await Promise.all(deletedProduct.reviews.map((review: Types.ObjectId) => Review.findByIdAndDelete(review)));
+      }
     }
 
     if (deletedProduct) {

@@ -1,15 +1,15 @@
 import { connectDB } from '@/config/db';
-import Category from '@/models/Category';
-import Product from '@/models/Product';
+import Category, { ICategory } from '@/models/Category';
+import Product, { IProduct } from '@/models/Product';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest, { params }: { params: { categoryId: string } }) {
   try {
     await connectDB();
 
-    const id = await params.categoryId;
+    const id: string = await params.categoryId;
 
-    const category = await Category.findById(id);
+    const category: ICategory | null = await Category.findById(id);
 
     if (category) {
       return NextResponse.json({ category: category }, { status: 200 });
@@ -25,10 +25,10 @@ export async function PUT(req: NextRequest, { params }: { params: { categoryId: 
   try {
     await connectDB();
 
-    const id = await params.categoryId;
+    const id: string = await params.categoryId;
     const { name, description } = await req.json();
 
-    const updatedCategory = await Category.findByIdAndUpdate(
+    const updatedCategory: ICategory | null = await Category.findByIdAndUpdate(
       id,
       {
         name,
@@ -51,15 +51,15 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
   try {
     await connectDB();
 
-    const id = await params.categoryId;
+    const id: string = await params.categoryId;
 
-    const products = await Product.find({ category: id });
+    const products: IProduct[] = await Product.find({ category: id });
 
     if (products.length > 0) {
       return NextResponse.json({ message: 'Category has products, cannot delete!' }, { status: 400 });
     }
 
-    const deletedCategory = await Category.findByIdAndDelete(id);
+    const deletedCategory: ICategory | null = await Category.findByIdAndDelete(id);
 
     if (deletedCategory) {
       return NextResponse.json({ message: 'Category deleted!' }, { status: 200 });

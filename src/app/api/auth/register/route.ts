@@ -1,5 +1,5 @@
 import { connectDB } from '@/config/db';
-import User from '@/models/User';
+import User, { IUser } from '@/models/User';
 import { hash } from 'bcryptjs';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -13,13 +13,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Please fill all fields' }, { status: 400 });
     }
 
-    const existingUser = await User.findOne({ email: email });
+    const existingUser: IUser | null = await User.findOne({ email: email });
 
     if (existingUser) {
       return NextResponse.json({ message: 'User already exists' }, { status: 400 });
     }
 
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword: string = await hash(password, 10);
 
     const otherData = {
       role: 'customer',
