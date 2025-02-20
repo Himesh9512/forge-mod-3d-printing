@@ -17,7 +17,9 @@ export async function GET(req: NextRequest, { params }: { params: { categoryId: 
       return NextResponse.json({ message: 'No category found!' }, { status: 404 });
     }
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / GET Category: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -43,7 +45,9 @@ export async function PUT(req: NextRequest, { params }: { params: { categoryId: 
       return NextResponse.json({ message: 'No category found!' }, { status: 404 });
     }
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / Update Category: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -67,6 +71,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
       return NextResponse.json({ message: 'No category found!' }, { status: 404 });
     }
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / Delete Category: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

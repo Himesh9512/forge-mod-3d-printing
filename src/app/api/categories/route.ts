@@ -10,7 +10,9 @@ export async function GET() {
 
     return NextResponse.json({ categories: categories }, { status: 200 });
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / GET Categories: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -19,6 +21,10 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const { name, description } = await req.json();
+
+    if (!name || !description) {
+      return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+    }
 
     const category: ICategory = new Category({
       name,
@@ -29,6 +35,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ category: createdCategory }, { status: 201 });
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / Create Category', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

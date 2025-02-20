@@ -17,7 +17,9 @@ export async function GET(req: NextRequest, { params }: { params: { reviewId: st
       return NextResponse.json({ message: 'No review found!' }, { status: 404 });
     }
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / GET Review: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -43,7 +45,9 @@ export async function PUT(req: NextRequest, { params }: { params: { reviewId: st
       return NextResponse.json({ message: 'No review found!' }, { status: 404 });
     }
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / Update Review: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -75,6 +79,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { reviewId:
       return NextResponse.json({ message: 'No review found!' }, { status: 404 });
     }
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / Delete Review: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

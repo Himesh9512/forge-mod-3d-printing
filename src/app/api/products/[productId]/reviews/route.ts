@@ -18,6 +18,10 @@ export async function POST(req: NextRequest, { params }: { params: { productId: 
     const productId: string = params.productId;
     const { rating, comment } = await req.json();
 
+    if (!rating) {
+      return NextResponse.json({ message: 'Missing required fields!' }, { status: 400 });
+    }
+
     // check if product exists or not
     const product: IProduct | null = await Product.findById(productId);
 
@@ -39,6 +43,8 @@ export async function POST(req: NextRequest, { params }: { params: { productId: 
 
     return NextResponse.json({ review: createdReview }, { status: 201 });
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / Create Review: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

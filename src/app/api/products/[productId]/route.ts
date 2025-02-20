@@ -18,7 +18,9 @@ export async function GET(req: NextRequest, { params }: { params: { productId: s
       return NextResponse.json({ message: 'No product found!' }, { status: 404 });
     }
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / GET Product: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -69,6 +71,8 @@ export async function PUT(req: NextRequest, { params }: { params: { productId: s
       return NextResponse.json({ message: 'No product found!' }, { status: 404 });
     }
   } catch (e) {
+    console.error('Error / Update Product: ', e);
+
     return NextResponse.json({ message: e }, { status: 500 });
   }
 }
@@ -93,6 +97,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { productId
       return NextResponse.json({ message: 'No product found!' }, { status: 404 });
     }
   } catch (e) {
+    console.error('Error / Delete Product: ', e);
+
     return NextResponse.json({ message: e }, { status: 500 });
   }
 }

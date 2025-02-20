@@ -11,7 +11,9 @@ export async function GET() {
 
     return NextResponse.json({ products: products }, { status: 200 });
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / GET Products: ', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -35,6 +37,23 @@ export async function POST(req: NextRequest) {
       reviews,
     }: IProduct = await req.json();
 
+    if (
+      !name ||
+      !price ||
+      !description ||
+      !category ||
+      !fileFormat ||
+      !modelFile ||
+      !thumbnail ||
+      !printable ||
+      !dimensions ||
+      !materials ||
+      !license ||
+      !rating ||
+      !reviews
+    ) {
+      return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+    }
     const categoryExists: ICategory | null = await Category.findById(category);
 
     if (!categoryExists) {
@@ -61,6 +80,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ product: createdProduct }, { status: 201 });
   } catch (e) {
-    return NextResponse.json({ message: e }, { status: 500 });
+    console.error('Error / Create Product', e);
+
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
