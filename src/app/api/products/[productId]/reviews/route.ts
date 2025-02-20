@@ -1,11 +1,19 @@
 import { connectDB } from '@/config/db';
+import { authOptions } from '@/lib/auth';
 import Product, { IProduct } from '@/models/Product';
 import Review, { IReview } from '@/models/Review';
+import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest, { params }: { params: { productId: string } }) {
   try {
     await connectDB();
+
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
 
     const productId: string = params.productId;
     const { rating, comment } = await req.json();
@@ -19,7 +27,8 @@ export async function POST(req: NextRequest, { params }: { params: { productId: 
 
     // create review and update the product with review
     const review: IReview = new Review({
-      product: params.productId,
+      user: session?.user.id,
+      product: productId,
       rating,
       comment,
     });

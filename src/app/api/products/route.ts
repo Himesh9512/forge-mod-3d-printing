@@ -1,13 +1,13 @@
 import { connectDB } from '@/config/db';
-import Category from '@/models/Category';
-import Product from '@/models/Product';
+import Category, { ICategory } from '@/models/Category';
+import Product, { IProduct } from '@/models/Product';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
   try {
     await connectDB();
 
-    const products = await Product.find();
+    const products: IProduct[] = await Product.find();
 
     return NextResponse.json({ products: products }, { status: 200 });
   } catch (e) {
@@ -33,15 +33,15 @@ export async function POST(req: NextRequest) {
       license,
       rating,
       reviews,
-    } = await req.json();
+    }: IProduct = await req.json();
 
-    const categoryExists = await Category.findById(category);
+    const categoryExists: ICategory | null = await Category.findById(category);
 
     if (!categoryExists) {
       return NextResponse.json({ message: 'Category not found!' }, { status: 404 });
     }
 
-    const product = new Product({
+    const product: IProduct = new Product({
       name,
       description,
       price,
