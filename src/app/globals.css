@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    @apply text-base text-primary font-body;
+  }
+
+  h1 {
+    @apply text-4xl lg:text-6xl font-semibold text-primary font-heading;
+  }
+
+  h2 {
+    @apply text-3xl lg:text-5xl font-semibold text-primary font-heading;
+  }
+
+  h3 {
+    @apply text-3xl lg:text-4xl font-semibold text-primary font-heading;
+  }
+
+  h4 {
+    @apply text-2xl lg:text-3xl font-semibold text-primary font-heading;
+  }
+
+  p {
+    @apply text-sm lg:text-base text-primary font-body;
+  }
+
+  a {
+    @apply text-highlight;
+  }
+}
+
+@layer components {
+  .section {
+    @apply flex justify-center items-center w-full p-4 sm:p-8 md:p-12 lg:p-16
+  }
+
+  .section-heading {
+    @apply rounded-full py-4 px-6 bg-neutral-900 lg:px-8;
+  }
+
+  .section-heading-text {
+    @apply text-3xl lg:text-5xl text-secondary font-semibold text-center;
+  }
+
+  .btn {
+    @apply text-lg text-background bg-secondary rounded-lg py-3 px-4 text-center;
+  }
+
+  .btn-secondary {
+    @apply text-lg text-background bg-neutral-100 rounded-lg py-3 px-4 text-center;
+  }
+
+  .card {
+    @apply flex flex-col items-center justify-center gap-4 md:gap-8 rounded-3xl p-4 md:p-8 bg-neutral-100;
+  }
+}
