@@ -33,24 +33,16 @@
 }
 
 @layer components {
-  .section {
-    @apply flex justify-center items-center w-full p-4 sm:p-8 md:p-12 lg:p-16
-  }
-
-  .section-heading {
-    @apply rounded-full py-4 px-6 bg-neutral-900 lg:px-8;
-  }
-
-  .section-heading-text {
-    @apply text-3xl lg:text-5xl text-secondary font-semibold text-center;
-  }
-
   .btn {
-    @apply text-lg text-background bg-secondary rounded-lg py-3 px-4 text-center;
+    @apply text-background text-lg py-3 px-4 text-center capitalize rounded-lg focus:outline-none focus:ring-2;
+  }
+  
+  .btn-primary {
+    @apply text-background bg-secondary;
   }
 
   .btn-secondary {
-    @apply text-lg text-background bg-neutral-100 rounded-lg py-3 px-4 text-center;
+    @apply bg-neutral-100;
   }
 
   .card {
