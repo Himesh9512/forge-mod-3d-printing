@@ -10,8 +10,8 @@ const Section = ({
       <div className="container">
         <div className="flex flex-col items-center justify-center gap-4 sm:gap-8 md:gap-12">
           {heading && (
-            <div className="rounded-full bg-neutral-900 px-6 py-4 lg:px-8">
-              <h2 className="text-center text-secondary">{heading}</h2>
+            <div className="rounded-full bg-accent px-6 py-4 lg:px-8">
+              <h2 className="text-center text-primary">{heading}</h2>
             </div>
           )}
           {children}
