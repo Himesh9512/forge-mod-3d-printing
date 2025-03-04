@@ -3,12 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function adminMiddleware(req: NextRequest) {
   try {
-    const method = req.method;
-
-    if (method === 'GET') {
-      return NextResponse.next();
-    }
-
     const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
     if (!token) {

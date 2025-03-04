@@ -2,15 +2,30 @@ import { connectDB } from '@/config/db';
 import { generateTrackingNumber } from '@/lib/generateTrackingNumber';
 import PrintRequest, { IPrintRequest } from '@/models/PrintRequest';
 import User, { IUser } from '@/models/User';
+import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const printRequests: IPrintRequest[] = await PrintRequest.find();
+    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
 
-    return NextResponse.json({ printRequests: printRequests }, { status: 200 });
+    if (!token) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    if (token.role == 'admin') {
+      const printRequests: IPrintRequest[] = await PrintRequest.find();
+
+      return NextResponse.json({ printRequests: printRequests }, { status: 200 });
+    } else {
+      const userId = token.id;
+
+      const printRequests: IPrintRequest[] = await PrintRequest.find({ user: userId });
+
+      return NextResponse.json({ printRequests: printRequests }, { status: 200 });
+    }
   } catch (e) {
     console.error('Error / GET Print Requests: ', e);
 
