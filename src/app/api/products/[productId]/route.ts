@@ -3,6 +3,7 @@ import Product, { IProduct } from '@/models/Product';
 import Review from '@/models/Review';
 import { Types } from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
+import { stripe } from '@/lib/stripe';
 
 export async function GET(req: NextRequest, { params }: { params: { productId: string } }) {
   try {
@@ -65,6 +66,12 @@ export async function PUT(req: NextRequest, { params }: { params: { productId: s
       { new: true }
     );
 
+    await stripe.products.update(updatedProduct?.stripeId || '', {
+      name: name,
+      description: description,
+      unit_label: 'unit',
+    });
+
     if (updatedProduct) {
       return NextResponse.json({ product: updatedProduct }, { status: 200 });
     } else {
@@ -90,6 +97,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { productId
         await Promise.all(deletedProduct.reviews.map((review: Types.ObjectId) => Review.findByIdAndDelete(review)));
       }
     }
+
+    await stripe.products.del(deletedProduct?.stripeId || '');
 
     if (deletedProduct) {
       return NextResponse.json({ message: 'Product deleted!' }, { status: 200 });

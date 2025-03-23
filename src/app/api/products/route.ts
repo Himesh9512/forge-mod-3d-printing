@@ -2,6 +2,7 @@ import { connectDB } from '@/config/db';
 import Category, { ICategory } from '@/models/Category';
 import Product, { IProduct } from '@/models/Product';
 import { NextRequest, NextResponse } from 'next/server';
+import { stripe } from '@/lib/stripe';
 
 export async function GET() {
   try {
@@ -48,9 +49,7 @@ export async function POST(req: NextRequest) {
       !printable ||
       !dimensions ||
       !materials ||
-      !license ||
-      !rating ||
-      !reviews
+      !license
     ) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
@@ -59,6 +58,16 @@ export async function POST(req: NextRequest) {
     if (!categoryExists) {
       return NextResponse.json({ message: 'Category not found!' }, { status: 404 });
     }
+
+    const stripeProduct = await stripe.products.create({
+      name: name,
+      description: description,
+      default_price_data: {
+        currency: 'usd',
+        unit_amount_decimal: (price * 100).toString(),
+      },
+      unit_label: 'unit',
+    });
 
     const product: IProduct = new Product({
       name,
@@ -73,6 +82,7 @@ export async function POST(req: NextRequest) {
       materials,
       license,
       rating,
+      stripeId: stripeProduct.id,
       reviews,
     });
 

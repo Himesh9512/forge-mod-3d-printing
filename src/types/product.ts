@@ -17,5 +17,6 @@ export default interface Product {
   materials: string[];
   license: 'Personal' | 'Commercial';
   rating: number;
+  stripeId: string;
   reviews: string[];
 }

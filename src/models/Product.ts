@@ -14,6 +14,7 @@ export interface IProduct extends Document {
   materials: ('PLA' | 'ABS' | 'Resin')[];
   license: 'Personal' | 'Commercial';
   rating: number;
+  stripeId: string;
   reviews: mongoose.Types.ObjectId[];
 }
 
@@ -35,6 +36,7 @@ const ProductSchema = new mongoose.Schema<IProduct>(
     materials: { type: [String], enum: ['PLA', 'ABS', 'Resin'], required: true },
     license: { type: String, enum: ['Personal', 'Commercial'], required: true },
     rating: { type: Number, min: 0, max: 5, default: 0 },
+    stripeId: { type: String, required: true, unique: true },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   },
   { timestamps: true } // Automatically adds createdAt & updatedAt fields
