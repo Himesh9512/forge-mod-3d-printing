@@ -68,7 +68,7 @@ export const useCartStore = create<CartStore>()(
       name: 'cart-storage',
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       onRehydrateStorage: (state) => {
-        console.log('hydration starts');
+        console.log('hydration starts: Cart');
 
         // optional
         return (state, error) => {
