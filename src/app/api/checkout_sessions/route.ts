@@ -8,25 +8,31 @@ export async function POST(req: NextRequest) {
     const headersList = await headers();
     const origin = headersList.get('origin');
 
-    const { searchParams } = new URL(req.url);
+    const { products } = await req.json(); // Receive products as an array from the request body
 
-    const product = await stripe.products.retrieve(searchParams.get('stripeId') as string);
+    if (!products || products.length === 0) {
+      return NextResponse.json({ message: 'No products selected' }, { status: 400 });
+    }
 
-    const priceId = product.default_price || '';
+    // Fetch product details from Stripe and create line items
+    const lineItems = await Promise.all(
+      products.map(async (item: { stripeId: string; quantity: number }) => {
+        const product = await stripe.products.retrieve(item.stripeId);
+        return {
+          price: product.default_price as string,
+          quantity: item.quantity || 1,
+        };
+      })
+    );
 
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: priceId as string,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: 'payment',
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?canceled=true`,
     });
-    return NextResponse.redirect(session.url as string, 303);
+    return NextResponse.json({ url: session.url }, { status: 200 });
   } catch (e) {
     console.error('Error / Stripe Checkout Sessions: ', e);
 

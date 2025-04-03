@@ -16,6 +16,7 @@ export interface IOrder extends Document {
       timestamp: Date;
     }[];
   };
+  stripeSessionId: string;
 }
 
 const OrderSchema = new mongoose.Schema<IOrder>(
@@ -38,6 +39,7 @@ const OrderSchema = new mongoose.Schema<IOrder>(
         },
       ],
     },
+    stripeSessionId: { type: String, required: true, unique: true },
   },
   { timestamps: true }
 );

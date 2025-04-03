@@ -4,13 +4,28 @@ import Product, { IProduct } from '@/models/Product';
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const products: IProduct[] = await Product.find();
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '10', 10);
 
-    return NextResponse.json({ products: products }, { status: 200 });
+    if (page < 1 || limit < 1) {
+      return NextResponse.json({ message: 'Invalid page or limit' }, { status: 400 });
+    }
+
+    const skip = (page - 1) * limit;
+    const totalProducts = await Product.countDocuments();
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    const products: IProduct[] = await Product.find().skip(skip).limit(limit);
+
+    return NextResponse.json(
+      { products: products, pagination: { totalProducts, totalPages, currentPage: page, pageSize: limit } },
+      { status: 200 }
+    );
   } catch (e) {
     console.error('Error / GET Products: ', e);
 

@@ -14,4 +14,5 @@ export default interface Order {
       timestamp: Date;
     }[];
   };
+  stripeSessionId: string;
 }
