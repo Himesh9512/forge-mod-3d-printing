@@ -2,12 +2,12 @@
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
-import { useToast } from '@/hooks/use-toast';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -32,8 +32,6 @@ const SignUp = () => {
   const { status } = useSession();
   const router = useRouter();
 
-  const { toast } = useToast();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,9 +43,9 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    // if (status === 'authenticated') {
-    //   router.push('/');
-    // }
+    if (status === 'authenticated') {
+      router.push('/');
+    }
   }, [status, router]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -55,27 +53,29 @@ const SignUp = () => {
     const email = values.email;
     const password = values.password;
 
-    await fetch('http://localhost:3000/api/auth/register', {
-      method: 'POST',
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    }).then(async (res) => {
+    const results = async () => {
+      const res = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
       const data = await res.json();
+
       if (res.status !== 201) {
-        toast({
-          variant: 'destructive',
-          title: 'Sign up Failed',
-          description: data.message,
-        });
+        throw data.message;
       } else {
-        toast({
-          title: 'User registered Successfully',
-        });
-        router.push('/login');
+        return data;
       }
+    };
+
+    toast.promise(results, {
+      loading: 'Registering user...',
+      success: () => 'User registered Successfully',
+      error: (err) => `SignUp Failed: ${err}`,
     });
   };
 

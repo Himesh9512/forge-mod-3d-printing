@@ -3,11 +3,11 @@
 import { signIn, useSession } from 'next-auth/react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useToast } from '@/hooks/use-toast';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -21,8 +21,6 @@ const formSchema = z.object({
 const Login = () => {
   const { status } = useSession();
   const router = useRouter();
-
-  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,19 +40,25 @@ const Login = () => {
     const email = values.email;
     const password = values.password;
 
-    const results = await signIn('credentials', { redirect: false, email, password });
+    const results = async () => {
+      const res = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
 
-    if (results?.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: results?.error,
-      });
-    } else {
-      toast({
-        title: 'Login Successfull',
-      });
-    }
+      if (res?.error) {
+        throw res.error;
+      }
+
+      return res;
+    };
+
+    toast.promise(results, {
+      loading: 'Logging in...',
+      success: () => 'Login Successful!',
+      error: (error) => `Login Failed: ${error}`,
+    });
   };
 
   return (
