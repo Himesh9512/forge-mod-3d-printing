@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -54,16 +55,9 @@ const SignUp = () => {
     const password = values.password;
 
     const results = async () => {
-      const res = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
+      const res = await axios.post('http://localhost:3000/api/auth/register', { name, email, password });
 
-      const data = await res.json();
+      const data = await res.data;
 
       if (res.status !== 201) {
         throw data.message;
