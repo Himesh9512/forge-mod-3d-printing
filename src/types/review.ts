@@ -1,5 +1,5 @@
 export default interface Review {
-  id: string;
+  _id: string;
   user: string;
   product: string;
   rating: number;

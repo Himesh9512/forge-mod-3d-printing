@@ -1,5 +1,5 @@
 export default interface Order {
-  id: string;
+  _id: string;
   user: string;
   items: {
     productId: string;

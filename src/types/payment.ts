@@ -1,5 +1,5 @@
 export default interface Payment {
-  id: string;
+  _id: string;
   user: string;
   order: string;
   transactionId: string;
