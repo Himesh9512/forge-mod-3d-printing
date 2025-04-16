@@ -9,7 +9,8 @@ export async function GET(req: NextRequest, { params }: { params: { productId: s
   try {
     await connectDB();
 
-    const id: string = await params.productId;
+    const { productId } = await params;
+    const id = productId;
 
     const product: IProduct | null = await Product.findById(id).populate('reviews');
 
@@ -29,7 +30,9 @@ export async function PUT(req: NextRequest, { params }: { params: { productId: s
   try {
     await connectDB();
 
-    const id: string = await params.productId;
+    const { productId } = await params;
+    const id = productId;
+
     const {
       name,
       price,
@@ -88,7 +91,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { productId
   try {
     await connectDB();
 
-    const id: string = await params.productId;
+    const { productId } = await params;
+    const id = productId;
 
     const deletedProduct: IProduct | null = await Product.findByIdAndDelete(id);
 

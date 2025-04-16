@@ -6,7 +6,8 @@ export async function GET(req: NextRequest, { params }: { params: { printRequest
   try {
     await connectDB();
 
-    const id: string = await params.printRequestId;
+    const { printRequestId } = await params;
+    const id = printRequestId;
 
     const printRequest: IPrintRequest | null = await PrintRequest.findById(id);
 
@@ -26,7 +27,8 @@ export async function PUT(req: NextRequest, { params }: { params: { printRequest
   try {
     await connectDB();
 
-    const id: string = await params.printRequestId;
+    const { printRequestId } = await params;
+    const id = printRequestId;
 
     const { user, customFile, price, color, dimensions, material, quantity, status, shippingAddress, comments } =
       await req.json();
@@ -64,7 +66,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { printRequ
   try {
     await connectDB();
 
-    const id: string = await params.printRequestId;
+    const { printRequestId } = await params;
+    const id = printRequestId;
 
     const deletedPrintRequest: IPrintRequest | null = await PrintRequest.findByIdAndDelete(id);
 

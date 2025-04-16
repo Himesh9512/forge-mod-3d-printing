@@ -7,7 +7,8 @@ export async function GET(req: NextRequest, { params }: { params: { reviewId: st
   try {
     await connectDB();
 
-    const id: string = await params.reviewId;
+    const { reviewId } = await params;
+    const id = reviewId;
 
     const review: IReview | null = await Review.findById(id);
 
@@ -27,7 +28,8 @@ export async function PUT(req: NextRequest, { params }: { params: { reviewId: st
   try {
     await connectDB();
 
-    const id: string = await params.reviewId;
+    const { reviewId } = await params;
+    const id = reviewId;
     const { rating, comment } = await req.json();
 
     const updatedReview: IReview | null = await Review.findByIdAndUpdate(
@@ -55,7 +57,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { reviewId:
   try {
     await connectDB();
 
-    const id: string = await params.reviewId;
+    const { reviewId } = await params;
+    const id = reviewId;
 
     const deletedReview: IReview | null = await Review.findByIdAndDelete(id);
 

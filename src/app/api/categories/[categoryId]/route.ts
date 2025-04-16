@@ -7,7 +7,8 @@ export async function GET(req: NextRequest, { params }: { params: { categoryId: 
   try {
     await connectDB();
 
-    const id: string = await params.categoryId;
+    const { categoryId } = await params;
+    const id = categoryId;
 
     const category: ICategory | null = await Category.findById(id);
 
@@ -27,7 +28,9 @@ export async function PUT(req: NextRequest, { params }: { params: { categoryId: 
   try {
     await connectDB();
 
-    const id: string = await params.categoryId;
+    const { categoryId } = await params;
+    const id = categoryId;
+
     const { name, description } = await req.json();
 
     const updatedCategory: ICategory | null = await Category.findByIdAndUpdate(
@@ -55,7 +58,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { categoryI
   try {
     await connectDB();
 
-    const id: string = await params.categoryId;
+    const { categoryId } = await params;
+    const id = categoryId;
 
     const products: IProduct[] = await Product.find({ category: id });
 
