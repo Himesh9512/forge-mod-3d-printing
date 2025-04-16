@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import Header from '@/components/layouts/Header';
 import Footer from '@/components/layouts/Footer';
+import QueryProvider from '@/components/providers/query-provider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +21,7 @@ export default function RootLayout({
       <body className="bg-background" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Header />
-          {children}
+          <QueryProvider>{children}</QueryProvider>
           <Footer />
           <Toaster richColors />
         </ThemeProvider>
