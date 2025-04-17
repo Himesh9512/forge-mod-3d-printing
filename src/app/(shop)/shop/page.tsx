@@ -1,5 +1,8 @@
+'use client';
+
 import { useProducts } from '@/hooks/useProducts';
 import Product from '@/types/product';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const Shop = () => {
@@ -15,7 +18,9 @@ const Shop = () => {
     <div>
       <ul>
         {data.products.map((product: Product) => (
-          <li key={product._id}>{product.name}</li>
+          <li key={product._id}>
+            <Link href={`shop/${product._id}`}>{product.name}</Link>
+          </li>
         ))}
       </ul>
 
