@@ -21,11 +21,11 @@ export const useCartStore = create<CartStore>()(
       cart: [],
       addToCart: (product) => {
         set((state) => {
-          const existingProduct = state.cart.find((item) => item.id === product.id);
+          const existingProduct = state.cart.find((item) => item._id === product._id);
           if (existingProduct) {
             return {
               cart: state.cart.map((item) =>
-                item.id === product.id
+                item._id === product._id
                   ? { ...item, quantity: item.quantity + 1, totalPrice: (item.quantity + 1) * item.price }
                   : item
               ),
@@ -39,20 +39,20 @@ export const useCartStore = create<CartStore>()(
       },
       removeFromCart: (product) => {
         set((state) => {
-          const existingProduct = state.cart.find((item) => item.id === product.id);
+          const existingProduct = state.cart.find((item) => item._id === product._id);
           if (!existingProduct) return state;
 
           if (existingProduct.quantity > 1) {
             return {
               cart: state.cart.map((item) =>
-                item.id === product.id
+                item._id === product._id
                   ? { ...item, quantity: item.quantity - 1, totalPrice: (item.quantity - 1) * item.price }
                   : item
               ),
             };
           } else {
             return {
-              cart: state.cart.filter((item) => item.id !== product.id),
+              cart: state.cart.filter((item) => item._id !== product._id),
             };
           }
         });
