@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -13,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { fetchUser, registerUser } from '@/lib/queries/user';
 
 const formSchema = z
   .object({
@@ -54,22 +54,12 @@ const SignUp = () => {
     const email = values.email;
     const password = values.password;
 
-    const results = async () => {
-      const res = await axios.post('http://localhost:3000/api/auth/register', { name, email, password });
-
-      const data = await res.data;
-
-      if (res.status !== 201) {
-        throw data.message;
-      } else {
-        return data;
-      }
-    };
+    const results = registerUser({ name, email, password });
 
     toast.promise(results, {
       loading: 'Registering user...',
       success: () => 'User registered Successfully',
-      error: (err) => `SignUp Failed: ${err}`,
+      error: (err) => `${err}`,
     });
   };
 
@@ -132,6 +122,7 @@ const SignUp = () => {
           <Button type="submit">Sign up</Button>
         </form>
       </Form>
+      <Button onClick={fetchUser}>Test</Button>
     </div>
   );
 };

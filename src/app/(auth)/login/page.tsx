@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { signInUser } from '@/lib/queries/user';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -40,24 +41,12 @@ const Login = () => {
     const email = values.email;
     const password = values.password;
 
-    const results = async () => {
-      const res = await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
-      });
-
-      if (res?.error) {
-        throw res.error;
-      }
-
-      return res;
-    };
+    const results = signInUser(email, password);
 
     toast.promise(results, {
       loading: 'Logging in...',
       success: () => 'Login Successful!',
-      error: (error) => `Login Failed: ${error}`,
+      error: (err) => `${err}`,
     });
   };
 

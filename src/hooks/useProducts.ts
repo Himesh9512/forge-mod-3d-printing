@@ -1,4 +1,4 @@
-import { createProduct, deleteProduct, fetchProductById, fetchProducts, updateProduct } from '@/lib/actions/product';
+import { createProduct, deleteProduct, fetchProductById, fetchProducts, updateProduct } from '@/lib/queries/product';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useProducts = (page: number, limit: number) => {

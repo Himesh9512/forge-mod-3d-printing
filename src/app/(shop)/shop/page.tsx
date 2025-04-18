@@ -4,15 +4,19 @@ import { useProducts } from '@/hooks/useProducts';
 import Product from '@/types/product';
 import Link from 'next/link';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const Shop = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const { data, isLoading, isError } = useProducts(page, limit);
+  const { data, error, isLoading, isError } = useProducts(page, limit);
 
   if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading products</div>;
+  if (isError) {
+    toast.error(error.message);
+    return <div>Error....</div>;
+  }
 
   return (
     <div>

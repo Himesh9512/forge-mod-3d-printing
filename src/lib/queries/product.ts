@@ -4,7 +4,11 @@ import axios from 'axios';
 const baseURL = process.env.BASE_URL || 'http://localhost:3000';
 
 export const fetchProducts = async (page = 1, limit = 10) => {
-  const res = await axios.get(`${baseURL}/api/products?page=${page}&limit=${limit}`);
+  const res = await axios
+    .get(`${baseURL}/api/products?page=${page}&limit=${limit}`)
+    .then((res) => res)
+    .catch((err) => err.response);
+
   const data = await res.data;
 
   if (res.status !== 200) {
@@ -15,7 +19,11 @@ export const fetchProducts = async (page = 1, limit = 10) => {
 };
 
 export const fetchProductById = async (id: string) => {
-  const res = await axios.get(`${baseURL}/api/products/${id}`);
+  const res = await axios
+    .get(`${baseURL}/api/products/${id}`)
+    .then((res) => res)
+    .catch((err) => err.response);
+
   const data = await res.data;
 
   if (res.status !== 200) {
@@ -26,7 +34,11 @@ export const fetchProductById = async (id: string) => {
 };
 
 export const createProduct = async (product: Product) => {
-  const res = await axios.post(`${baseURL}/api/products`, product);
+  const res = await axios
+    .post(`${baseURL}/api/products`, product)
+    .then((res) => res)
+    .catch((err) => err.response);
+
   const data = await res.data;
 
   if (res.status !== 201) {
@@ -37,7 +49,11 @@ export const createProduct = async (product: Product) => {
 };
 
 export const updateProduct = async ({ id, product }: { id: string; product: Product }) => {
-  const res = await axios.put(`${baseURL}/api/products/${id}`, product);
+  const res = await axios
+    .put(`${baseURL}/api/products/${id}`, product)
+    .then((res) => res)
+    .catch((err) => err.response);
+
   const data = await res.data;
 
   if (res.status !== 200) {
@@ -48,7 +64,11 @@ export const updateProduct = async ({ id, product }: { id: string; product: Prod
 };
 
 export const deleteProduct = async (id: string) => {
-  const res = await axios.delete(`${baseURL}/api/products/${id}`);
+  const res = await axios
+    .delete(`${baseURL}/api/products/${id}`)
+    .then((res) => res)
+    .catch((err) => err.response);
+
   const data = await res.data;
 
   if (res.status !== 200) {
