@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { fetchUser, registerUser } from '@/lib/queries/user';
+import { registerUser } from '@/lib/queries/user';
 
 const formSchema = z
   .object({
@@ -122,7 +122,6 @@ const SignUp = () => {
           <Button type="submit">Sign up</Button>
         </form>
       </Form>
-      <Button onClick={fetchUser}>Test</Button>
     </div>
   );
 };

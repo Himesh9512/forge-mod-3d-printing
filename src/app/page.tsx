@@ -10,6 +10,7 @@ export default function Home() {
             <Button>Test</Button>
           </div>
         </Section>
+        <Section heading="Our Story">Card</Section>
       </main>
     </div>
   );
