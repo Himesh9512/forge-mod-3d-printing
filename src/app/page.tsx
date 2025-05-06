@@ -1,3 +1,5 @@
+'use client';
+
 import Section from '@/components/layouts/Section';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -45,10 +47,12 @@ export default function Home() {
             {/* Right Image */}
             <div className="flex flex-1 justify-center">
               <div className="bg-gray-700 rounded-full p-4">
-                <img
+                <Image
                   src="/R2 1.svg" // replace with your image
                   alt="3D model"
-                  className="h-[400] w-[400] rounded-full object-contain"
+                  height={400}
+                  width={400}
+                  className="rounded-full object-contain"
                 />
               </div>
             </div>
@@ -61,7 +65,7 @@ export default function Home() {
               <div className="bg-white/10 border-white/20 text-white relative rounded-2xl border p-6 shadow-xl backdrop-blur-md">
                 <div className="bg-white/20 absolute left-4 top-4 rounded-lg px-3 py-1 text-lg font-bold">1</div>
                 <div className="mb-4 flex justify-center">
-                  <img src="/3d-printing.png" alt="3D Printing" className="h-20" />
+                  <Image src="/3d-printing.png" alt="3D Printing" height={20} width={20} />
                 </div>
                 <h3 className="text-center text-xl font-semibold">3D Printing</h3>
                 <p className="text-gray-300 mt-2 text-center text-sm">
@@ -77,7 +81,7 @@ export default function Home() {
               <div className="bg-white/10 border-white/20 text-white relative rounded-2xl border p-6 shadow-xl backdrop-blur-md">
                 <div className="bg-white/20 absolute left-4 top-4 rounded-lg px-3 py-1 text-lg font-bold">2</div>
                 <div className="mb-4 flex justify-center">
-                  <img src="/3d-modeling.png" alt="3D Modeling" className="h-20" />
+                  <Image src="/3d-modeling.png" alt="3D Modeling" height={20} width={20} />
                 </div>
                 <h3 className="text-center text-xl font-semibold">3D Modeling</h3>
                 <p className="text-gray-300 mt-2 text-center text-sm">
@@ -93,22 +97,23 @@ export default function Home() {
               <div className="bg-white/10 border-white/20 text-white relative rounded-2xl border p-6 shadow-xl backdrop-blur-md">
                 <div className="bg-white/20 absolute left-4 top-4 rounded-lg px-3 py-1 text-lg font-bold">3</div>
                 <div className="mb-4 flex justify-center">
-                  <img src="/custom-printing.png" alt="Custom 3D" className="h-20" />
+                  <Image src="/custom-printing.png" alt="Custom 3D" height={20} width={20} />
                 </div>
                 <h3 className="text-center text-xl font-semibold">Custom 3D Modeling & Printing</h3>
                 <p className="text-gray-300 mt-2 text-center text-sm">
                   Choose your preferred manufacturer from over 150 professional services and receive your order fast and
                   hassle-free.
                 </p>
-                <button className="bg-yellow-400 hover:bg-yellow-300 text-black mt-6 w-full rounded-md py-2 font-semibold">
+                {/* <Button className="bg-yellow-400 hover:bg-yellow-300 text-black mt-6 w-full rounded-md py-2 font-semibold">
                   Get Model & 3D Print Idea
-                </button>
+                </Button> */}
+                <Button>Get Model & 3D Print Idea</Button>
               </div>
             </div>
           </section>
         </Section>
         <Section heading="Our Services">
-          <img src="/shutterstock_1029948412.jpg 1.svg" alt="img" />
+          <Image src="/shutterstock_1029948412.jpg 1.svg" alt="Image" height={1200} width={660} />
           <section className="bg-black px-6 py-16">
             <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
               {/* Card 1 */}

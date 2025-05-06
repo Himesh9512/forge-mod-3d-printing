@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
-export default {
+const config: Config = {
   darkMode: ['class'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,14 +9,6 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    colors: {
-      secondary: '#FFEA00',
-      highlight: '#FF6A00',
-    },
-    fontFamily: {
-      heading: ['Barlow', 'sans-serif'],
-      body: ['Roboto', 'Inter'],
-    },
     extend: {
       colors: {
         background: 'hsl(var(--background))',
@@ -60,6 +52,10 @@ export default {
           '5': 'hsl(var(--chart-5))',
         },
       },
+      fontFamily: {
+        heading: ['Barlow', 'sans-serif'],
+        body: ['Roboto', 'Inter'],
+      },
       container: {
         center: true,
       },
@@ -71,4 +67,6 @@ export default {
     },
   },
   plugins: [tailwindcssAnimate],
-} satisfies Config;
+};
+
+export default config;
