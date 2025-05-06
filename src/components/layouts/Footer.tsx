@@ -65,13 +65,13 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <img src="#" alt="Facebook" width="20" height="20" />
+                <Image src="#" alt="Facebook" width={20} height={20} />
                 <a href="#" className="hover:text-white text-xl">
                   Facebook
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <img src="#" alt="Reddit" width="20" height="20" />
+                <Image src="#" alt="Reddit" width={20} height={20} />
                 <a href="#" className="hover:text-white text-xl">
                   Reddit
                 </a>
