@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-background" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-background">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Header />
           <QueryProvider>{children}</QueryProvider>
