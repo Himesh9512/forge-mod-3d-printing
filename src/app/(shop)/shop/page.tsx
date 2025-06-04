@@ -13,7 +13,7 @@ const Shop = () => {
 
   const { data, error, isLoading, isError } = useProducts(page, limit);
 
-  if (isLoading) return <div className="text-white text-center mt-10">Loading...</div>;
+  if (isLoading) return <div className="mt-10 text-center text-white">Loading...</div>;
   if (isError) {
     toast.error(error.message);
     return <div className="text-red-500">Error...</div>;
@@ -21,29 +21,26 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen bg-black px-4 py-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {data.products.map((product: Product) => (
-          <div
-            key={product._id}
-            className="bg-[#e0e0e0] rounded-3xl overflow-hidden shadow-lg flex flex-col"
-          >
+          <div key={product._id} className="flex flex-col overflow-hidden rounded-3xl bg-[#e0e0e0] shadow-lg">
             {/* Product Image Placeholder */}
-            <div className="relative h-64 bg-gray-300 flex items-start justify-end p-3">
+            <div className="relative flex h-64 items-start justify-end bg-gray-300 p-3">
               <Heart size={20} className="text-black" />
             </div>
 
             {/* Product Info */}
-            <div className="p-4 border-t border-black bg-white rounded-b-2xl">
+            <div className="rounded-b-2xl border-t border-black bg-white p-4">
               <p className="font-semibold text-black">{product.name}</p>
               <p className="text-lg font-bold text-black">50.0$</p>
               <div className="mt-3 flex items-center justify-between gap-2">
-                <a  href={`shop/${product._id}`}  className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-1 px-4 rounded-full text-sm">
+                <a
+                  href={`shop/${product._id}`}
+                  className="rounded-full bg-yellow-400 px-4 py-1 text-sm font-bold text-black hover:bg-yellow-300"
+                >
                   Buy
                 </a>
-                <Link
-                  href={`shop/${product._id}`}
-                  className="text-[10px] underline text-gray-700"
-                >
+                <Link href={`shop/${product._id}`} className="text-[10px] text-gray-700 underline">
                   Add To Cart
                 </Link>
               </div>
@@ -55,7 +52,7 @@ const Shop = () => {
       {/* Pagination */}
       <div className="mt-10 flex justify-center gap-4 text-white">
         <button
-          className="px-4 py-2 bg-gray-700 rounded disabled:opacity-50"
+          className="rounded bg-gray-700 px-4 py-2 disabled:opacity-50"
           onClick={() => setPage((p) => Math.max(p - 1, 1))}
           disabled={page === 1}
         >
@@ -63,7 +60,7 @@ const Shop = () => {
         </button>
         <span>Page {page}</span>
         <button
-          className="px-4 py-2 bg-gray-700 rounded disabled:opacity-50"
+          className="rounded bg-gray-700 px-4 py-2 disabled:opacity-50"
           onClick={() => setPage((p) => (data.totalPages && p < data.totalPages ? p + 1 : p))}
           disabled={page >= data.totalPages}
         >
